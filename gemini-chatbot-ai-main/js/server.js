@@ -610,7 +610,8 @@ app.post('/chat', async (req,res)=>{
       // 4️⃣ Retornar el mensaje final
       console.log(`💬 Mensaje generado: ${mensajeIA}`);
       //contruir link del producto
-            const link = `https://willy-vilca.github.io/FrontEnd-Proyecto-Distribuidora/producto-info.html?id=${idProducto}`;
+            let link = `https://willy-vilca.github.io/FrontEnd-Proyecto-Distribuidora/producto-info.html?id=${idProducto}`;
+            link = `https://willy-vilca.github.io/proyecto-marcos-de-desarrollo-avance-3/producto-info.html?id=${idProducto}`;
       // Construir URL de imagen
       const baseImg = "https://backend-proyecto-distribuidora-production.up.railway.app/images/productos/";
       const encodedName = encodeURIComponent(producto.nombre.trim());
