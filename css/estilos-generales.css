@@ -72,6 +72,12 @@
       color: #fff;
     }
 
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
     .cantidadProducto{
       max-width:3rem !important;
       background: #f9f9f9 !important;

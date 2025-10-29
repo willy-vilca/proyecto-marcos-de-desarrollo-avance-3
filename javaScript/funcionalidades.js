@@ -100,7 +100,7 @@ function renderCarrito() {
       <div class="d-flex align-items-center product-actions">
         <div class="input-group input-group-sm me-1">
           <button class="btn" onclick="cambiarCantidad(${producto.id}, -1)">-</button>
-          <input type="text" class="form-control text-center cantidadProducto" value="${producto.cantidad}" readonly>
+          <input type="number" class="form-control text-center cantidadProducto" value="${producto.cantidad}" readonly>
           <button class="btn" onclick="cambiarCantidad(${producto.id}, 1)">+</button>
         </div>
         <span class="text-danger fw-bold me-2">Total: S/.${subtotal.toLocaleString()}</span>
