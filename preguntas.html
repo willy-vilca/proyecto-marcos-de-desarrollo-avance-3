@@ -356,9 +356,12 @@
                         <strong>TOTAL:</strong>
                         <strong id="cartTotal">$0</strong>
                     </div>
+                    <div class="cart-minimo-alert w-100 text-center mb-2 px-3" id="minimoMensaje">
+                        <span><i class="bi bi-info-circle-fill" id="icono-alerta"></i> El monto mínimo de compra es de <strong>S/. 100.00</strong></span>
+                    </div>
                     <div class="d-flex flex-wrap justify-content-between w-100">
                         <button class="btn btn-outline-dark me-2 flex-fill" data-bs-dismiss="modal">SEGUIR PIDIENDO</button>
-                        <button class="btn btn-outline-secondary me-2 flex-fill" onclick="finalizarPedido()">FINALIZAR PEDIDO</button>
+                        <button class="btn btn-outline-secondary me-2 flex-fill" onclick="finalizarPedido()" id="btnFinalizarPedido">FINALIZAR PEDIDO</button>
                         <button class="btn btn-outline-danger flex-fill" onclick="vaciarCarrito()">VACIAR CARRITO</button>
                     </div>
                 </div>

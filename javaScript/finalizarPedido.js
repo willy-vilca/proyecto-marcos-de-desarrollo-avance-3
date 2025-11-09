@@ -86,8 +86,15 @@ let totalPedidoCompra = 0;
       let pedido = getProductosPedido();
       let productoPedido = pedido.find(p => p.id === id);
       if (!productoPedido) return;
+
       productoPedido.cantidad += delta;
       if (productoPedido.cantidad < 1) productoPedido.cantidad = 1;
+      if (productoPedido.cantidad > productoPedido.stock){
+        productoPedido.cantidad = productoPedido.stock;
+        mostrarModalMensajePequeño(`Lo Sentimos, no contamos con más unidades de este producto, 
+        el stock disponible es de <strong>${productoPedido.stock} Unidades.</strong>`);
+      }
+
       saveProductosPedido(pedido);
       renderProductosPedido();
     }
@@ -329,4 +336,48 @@ function mostrarModal(titulo, mensaje, paginaSiguiente = 'javascript:void(0)', i
       document.getElementById(idFocus).focus();    
     }
   };
+}
+
+// Función para mostrar un modal de mensaje
+function mostrarModalMensajePequeño(mensaje, tipo = "info") {
+
+  const modal = document.createElement("div");
+  modal.id = "modalMensajePequeño";
+  modal.className = "modal fade";
+  modal.tabIndex = -1;
+  modal.innerHTML = `
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content text-center">
+        <div class="modal-header ${
+          tipo === "success"
+            ? "bg-success text-white"
+            : tipo === "error"
+            ? "bg-danger text-white"
+            : "background-rojo text-white"
+        } p-2">
+          <h6 class="modal-title m-0">${
+            tipo === "success"
+              ? "Éxito"
+              : tipo === "error"
+              ? "Error"
+              : "Aviso"
+          }</h6>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body py-3">
+          <p class="mb-0">${mensaje}</p>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  const modalBootstrap = new bootstrap.Modal(modal);
+  modalBootstrap.show();
+
+  setTimeout(() => {
+    modalBootstrap.hide();
+    setTimeout(() => modal.remove(), 500);
+  }, 6000);
 }

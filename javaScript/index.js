@@ -15,14 +15,33 @@ function agregarAlCarrito(producto, cantidad = 1) {
   let existente = carrito.find(p => p.id === producto.id);
 
   if (existente) {
-    existente.cantidad += cantidad;
+    //se verifica el stock disponible
+    let cantidadTotal = existente.cantidad + cantidad; 
+    if(cantidadTotal > producto.stock){
+        mostrarModalMensajePequeño(`Solo contamos con <strong>${producto.stock} Unidades</strong> de este producto. Se agregó el Stock máximo disponible al carrito.`);
+        existente.cantidad = producto.stock;
+    }else{
+        existente.cantidad += cantidad;
+    }
   } else {
-    carrito.push({
-      id: producto.id,
-      nombre: producto.nombre,
-      precio: producto.precio,
-      cantidad: cantidad
-    });
+    if(cantidad > producto.stock){
+        mostrarModalMensajePequeño(`Solo contamos con <strong>${producto.stock} Unidades</strong> de este producto. Se agregó el Stock máximo disponible al carrito.`);
+        carrito.push({
+            id: producto.id,
+            nombre: producto.nombre,
+            precio: producto.precio,
+            stock: producto.stock,
+            cantidad: producto.stock
+        });
+    }else{
+        carrito.push({
+            id: producto.id,
+            nombre: producto.nombre,
+            precio: producto.precio,
+            stock: producto.stock,
+            cantidad: cantidad
+        });
+    }
   }
 
   saveCarrito(carrito);
@@ -173,3 +192,47 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchProductosOferta();
   fetchProductosNuevos();
 });
+
+// Función para mostrar un pequeño mensaje
+function mostrarModalMensajePequeño(mensaje, tipo = "info") {
+
+  const modal = document.createElement("div");
+  modal.id = "modalMensajePequeño";
+  modal.className = "modal fade";
+  modal.tabIndex = -1;
+  modal.innerHTML = `
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content text-center">
+        <div class="modal-header ${
+          tipo === "success"
+            ? "bg-success text-white"
+            : tipo === "error"
+            ? "bg-danger text-white"
+            : "background-rojo text-white"
+        } p-2">
+          <h6 class="modal-title m-0">${
+            tipo === "success"
+              ? "Éxito"
+              : tipo === "error"
+              ? "Error"
+              : "Aviso"
+          }</h6>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body py-3">
+          <p class="mb-0">${mensaje}</p>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  const modalBootstrap = new bootstrap.Modal(modal);
+  modalBootstrap.show();
+
+  setTimeout(() => {
+    modalBootstrap.hide();
+    setTimeout(() => modal.remove(), 500);
+  }, 8000);
+}

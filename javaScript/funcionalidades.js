@@ -77,6 +77,8 @@ function saveCarrito(carrito) {
 function renderCarrito() {
   const cartItems = document.getElementById("cartItems");
   const cartTotal = document.getElementById("cartTotal");
+  const minimoMensaje = document.getElementById("minimoMensaje");
+  const btnFinalizar = document.getElementById("btnFinalizarPedido");
   let carrito = getCarrito();
 
   cartItems.innerHTML = "";
@@ -103,14 +105,30 @@ function renderCarrito() {
           <input type="number" class="form-control text-center cantidadProducto" value="${producto.cantidad}" readonly>
           <button class="btn" onclick="cambiarCantidad(${producto.id}, 1)">+</button>
         </div>
-        <span class="text-danger fw-bold me-2">Total: S/.${subtotal.toLocaleString()}</span>
+        <span class="text-danger fw-bold me-2">Total: S/.${parseFloat(subtotal).toFixed(2)}</span>
         <button class="btn btn-remove ms-5" onclick="eliminarProducto(${producto.id})">✕</button>
       </div>
     `;
     cartItems.appendChild(item);
   });
 
-  cartTotal.textContent = "S/." + total.toLocaleString();
+  cartTotal.textContent = "S/." + parseFloat(total).toFixed(2);
+
+  if (total < 100) {
+    minimoMensaje.style.display = "flex";
+    minimoMensaje.style.animation = "fadeIn 0.8s ease forwards";
+    btnFinalizar.disabled = true;
+    btnFinalizar.classList.add("opacity-50");
+    btnFinalizar.style.cursor = "not-allowed";
+  } else {
+    minimoMensaje.style.animation = "fadeOut 0.4s ease forwards";
+    setTimeout(() => {
+      minimoMensaje.style.display = "none";
+    }, 350);
+    btnFinalizar.disabled = false;
+    btnFinalizar.classList.remove("opacity-50");
+    btnFinalizar.style.cursor = "pointer";
+  }
 }
 
 
@@ -121,6 +139,11 @@ function cambiarCantidad(id, delta) {
 
   producto.cantidad += delta;
   if (producto.cantidad < 1) producto.cantidad = 1;
+  if (producto.cantidad > producto.stock){
+    producto.cantidad = producto.stock;
+    mostrarModalMensaje(`Lo Sentimos, no contamos con más unidades de este producto, 
+    el stock disponible es de <strong>${producto.stock} Unidades.</strong>`);
+  }
 
   saveCarrito(carrito);
   renderCarrito();
@@ -360,7 +383,7 @@ function mostrarModalMensaje(mensaje, tipo = "info") {
             ? "bg-success text-white"
             : tipo === "error"
             ? "bg-danger text-white"
-            : "bg-secondary text-white"
+            : "background-rojo text-white"
         } p-2">
           <h6 class="modal-title m-0">${
             tipo === "success"
