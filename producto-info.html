@@ -16,7 +16,7 @@
 <body class="bg-light">
     <header>
         <div class="container-fluid text-center background-rojo text-white fs-5 py-3 fw-bold">
-            Compra mínima en la Web: S/. 300.00
+            Compra mínima en la Web: S/. 100.00
         </div>
         <div class="banner">
             <div class="banner-window">
@@ -52,7 +52,7 @@
 
                     <div class="text-center" style=" height: 50px;margin-right:5px">
                         <!--Este botón abre el modal del carrito de compras-->
-                        <button class="btn btn-outline-dark py-3 px-xxl-5" data-bs-toggle="modal" data-bs-target="#cartModal"  style="width:100%;" type="button">CARRITO <i class="bi bi-cart2" style="height: 16px; margin-left: 10px;"></i></button>
+                        <button class="btn btn-outline-dark py-3 px-xxl-5" data-bs-toggle="modal" data-bs-target="#cartModal"  style="width:100%;" type="button"><span id="carritoBotonPrincipal">CARRITO</span> <i class="bi bi-cart2" style="height: 16px; margin-left: 10px;"></i></button>
                     </div>
                     <div class="text-center" id="seccionUsuario" style=" height: 50px;margin-right:5px">
                         <a href="login.html"><button type="button" class="btn btn-outline-danger py-3 px-xxl-5 backgroundHover-rojo" style="width:100%;">INGRESAR</button></a>
@@ -222,6 +222,7 @@
         <!-- Carrito -->  
         <button class="btn-flotante carrito" id="btnCarrito" data-bs-toggle="modal" data-bs-target="#cartModal">
             <i class="bi bi-cart3"></i>
+            <span class="burbuja-carrito" id="burbujaCarrito">0</span>
             <span class="texto-boton">Abrir carrito de pedido</span>
         </button>
         <!-- WhatsApp -->
