@@ -143,6 +143,11 @@
 }
 
 /*seccion del Footer*/
+footer{
+  border-top: 2px solid #d6d6d6;
+  margin-top: 6.25rem;
+}
+
 .footer-red-section {
   min-height: 130px;
   display: flex;

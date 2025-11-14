@@ -524,3 +524,61 @@
 #modalMensajePequeño .modal-body p {
   font-size: 0.95rem;
 }
+
+/*footer-carrusel de marcas*/
+
+.brand-slider {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    margin-top: 62px;
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    border-bottom: 2px solid #d6d6d6;
+    padding-bottom: 5rem;
+}
+
+.brand-title {
+    text-align: center;
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 60px;
+    color: #111827;
+}
+
+.brand-track {
+    display: flex;
+    width: max-content;
+    animation: scroll 18s linear infinite;
+}
+
+.brand-slider:hover .brand-track {
+    animation-play-state: paused;
+}
+
+.brand-group {
+    display: flex;
+    align-items: center;
+}
+
+.brand-group img {
+    height: 55px;
+    margin: 0 35px;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    filter: grayscale(100%) brightness(0.7);
+}
+
+.brand-group img:hover {
+    transform: scale(1.1);
+    filter: grayscale(0%) brightness(1);
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
