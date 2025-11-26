@@ -26,7 +26,6 @@ function getProductosPedido() {
 function saveProductosPedido(carrito) {
   localStorage.setItem("carrito", JSON.stringify(carrito));
   actualizarBotonCarrito();
-  actualizarBotonFlotanteCarrito();
 }
 
 function actualizarBotonCarrito(){
@@ -36,17 +35,6 @@ function actualizarBotonCarrito(){
     botonPrincipal.innerHTML = `CARRITO <span class='fw-medium'>(${cantidadProductosCarrito})</span>`;
   } else {
     botonPrincipal.innerHTML = `CARRITO`;
-  }
-}
-
-function actualizarBotonFlotanteCarrito(){
-  const botonFlotante = document.getElementById('burbujaCarrito');
-  let cantidadProductosCarrito = getCarrito().length;
-  botonFlotante.textContent = cantidadProductosCarrito;
-  if (cantidadProductosCarrito > 0) {
-  botonFlotante.classList.add('show');
-  } else {
-    botonFlotante.classList.remove('show');
   }
 }
 
@@ -91,7 +79,7 @@ let totalPedidoCompra = 0;
                     <input type="text" class="form-control text-center cantidadProducto" value="${producto.cantidad}" readonly>
                     <button class="btn" onclick="cambiarCantidadPedido(${producto.id}, 1)">+</button>
                 </div>
-                <span class="text-danger fw-bold me-4">Total: S/.${subtotalPedido.toLocaleString()}</span>
+                <span class="text-danger fw-bold me-4">Total: S/.${parseFloat(subtotalPedido).toFixed(2)}</span>
                 <button class="btn btn-remove ms-5" onclick="eliminarProductoPedido(${producto.id})">✕</button>
             </div>
         `;
@@ -100,9 +88,9 @@ let totalPedidoCompra = 0;
       totalNeto = TotalPedido-descuento;
       totalPedidoCompra = totalNeto;
 
-      pedidoTotal.textContent = "S/." + TotalPedido.toLocaleString();
-      descuentoPedido.textContent = "S/." + descuento.toLocaleString();
-      totalPedidoNeto.textContent = "S/." + totalNeto.toLocaleString();
+      pedidoTotal.textContent = "S/." + parseFloat(TotalPedido).toFixed(2);
+      descuentoPedido.textContent = "S/." + parseFloat(descuento).toFixed(2);
+      totalPedidoNeto.textContent = "S/." + parseFloat(totalNeto).toFixed(2);
     }
 
     function cambiarCantidadPedido(id, delta) {
@@ -137,8 +125,8 @@ let totalPedidoCompra = 0;
 const formPedido = document.getElementById('formPedido');
 formPedido.addEventListener('submit', function(event) {
   event.preventDefault();
-  //validamos que la compra sea mayor a S/300
-  if(totalPedidoCompra<300){
+  //validamos que la compra sea mayor a S/100
+  if(totalPedidoCompra<100){
     mostrarModal('¡Monto Mínimo no Alcanzado!','El monto mínimo de compra en línea es de S/.300, agregue más productos por favor.');
     return;
   }
@@ -266,10 +254,10 @@ async function realizarPedido(){
     // pedido creado exitosamente
     localStorage.removeItem('carrito');
     mostrarModal('¡Pedido creado Exitosamente!',`Muchas gracias por comprar con nosotros 
-      <span class="fw-bold">${nombreUsuario}</span>, el código de tu orden es ${orderResp.orderId}. 
+      <span class="fw-bold">${nombreUsuario}</span>, el código de tu orden es PED-${orderResp.orderId.toString().padStart(3,'0')}. 
       Tu pedido llegará entre 6 a 8 días laborales.<br>
-      Puedes ver tus pedidos <a href="misPedidos.html" class="fw-bold link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
-      aquí.</a>`,'index.html');
+      Puedes ver tu pedido y descargar tu comprobante en la sección <a href="misPedidos.html" class="fw-bold link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
+      "Mis Pedidos".</a>`,'index.html');
   }else {
     mostrarModal('Error al registrar el pedido', 'Lo sentimos, hubo un problema al momento de registrar el pedido, intentanlo nuevamente más tarde.');
   }

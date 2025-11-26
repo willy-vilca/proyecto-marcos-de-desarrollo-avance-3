@@ -90,6 +90,7 @@ function actualizarBotonCarrito(){
 
 function actualizarBotonFlotanteCarrito(){
   const botonFlotante = document.getElementById('burbujaCarrito');
+  if(botonFlotante==null) return;
   let cantidadProductosCarrito = getCarrito().length;
   botonFlotante.textContent = cantidadProductosCarrito;
   if (cantidadProductosCarrito > 0) {
@@ -195,7 +196,10 @@ function finalizarPedido() {
   if(usuarioExiste){
     window.location.href = "finalizarPedido.html";
   }else{
-    mostrarModal('¡Registrate para continuar!','Debe iniciar sesion para poder realizar un pedido, utilice el botón Ingresar.');
+    mostrarModal('¡Registrate para continuar!',`Debes iniciar sesion para poder realizar un pedido, puedes hacerlo dirigiéndote al botón 
+      <a href="login.html" class="fw-bold link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
+      Ingresar.
+      </a>`);
   }
   
 }
@@ -223,9 +227,11 @@ const btnCarrito = document.getElementById("btnCarrito");
 window.addEventListener("scroll", () => {
   if (window.scrollY > 200) {
     btnArriba.classList.add("show");
+    if(btnCarrito==null) return;
     btnCarrito.classList.add("show");
   } else {
     btnArriba.classList.remove("show");
+    if(btnCarrito==null) return;
     btnCarrito.classList.remove("show");
   }
 });
